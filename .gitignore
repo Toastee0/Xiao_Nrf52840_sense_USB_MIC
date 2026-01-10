@@ -1,0 +1,31 @@
+# Build directories
+build/
+build_*/
+ncsbuild/
+
+# CMake and build artifacts
+*.o
+*.a
+*.elf
+*.hex
+*.bin
+*.map
+*.lst
+*.zip
+*.uf2
+
+# Editor and IDE files
+.vscode/
+.vs/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+
+# Zephyr specific
+.cache/
+zephyr/

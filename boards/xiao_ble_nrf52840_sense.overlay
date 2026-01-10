@@ -1,0 +1,23 @@
+/*
+ * Device tree overlay for XIAO nRF52840 Sense
+ * Enables PDM microphone for USB audio
+ */
+
+#include "xiao_ble-pinctrl.dtsi"
+
+&pdm0 {
+	status = "okay";
+	pinctrl-0 = <&pdm0_default>;
+	pinctrl-1 = <&pdm0_sleep>;
+	pinctrl-names = "default", "sleep";
+};
+
+&zephyr_udc0 {
+	mic_0 {
+		compatible = "usb-audio-mic";
+		feature-mute;
+		channel-l;
+		sample-rate-hz = <16000>;
+		resolution = <16>;
+	};
+};

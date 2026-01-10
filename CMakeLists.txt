@@ -1,0 +1,7 @@
+# USB Microphone for XIAO nRF52840 Sense
+cmake_minimum_required(VERSION 3.20.0)
+
+find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
+project(usb_mic_xiao)
+
+target_sources(app PRIVATE src/main.c)

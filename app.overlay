@@ -1,0 +1,11 @@
+/*
+ * USB Audio Microphone Device Tree Configuration
+ */
+
+&zephyr_udc0 {
+	mic_0 {
+		compatible = "usb-audio-mic";
+		feature-mute;
+		channel-l;
+	};
+};

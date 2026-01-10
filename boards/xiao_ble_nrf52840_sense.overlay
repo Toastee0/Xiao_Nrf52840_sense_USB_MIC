@@ -17,7 +17,7 @@
 		compatible = "usb-audio-mic";
 		feature-mute;
 		channel-l;
-		sample-rate-hz = <16000>;
+		sample-rate-hz = <48000>;
 		resolution = <16>;
 	};
 };

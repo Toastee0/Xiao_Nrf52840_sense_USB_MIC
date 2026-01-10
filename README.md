@@ -15,7 +15,7 @@ USB Audio Class device implementation using the built-in PDM microphone on the S
 
 ## Features
 
-- 16 kHz sample rate, 16-bit mono audio
+- 48 kHz sample rate, 16-bit mono audio (CD quality)
 - USB Audio Class device (UAC) compatible
 - Works with Windows, Linux, and macOS
 - Low latency audio capture
@@ -129,13 +129,13 @@ minicom -D /dev/ttyACM0 -b 115200
 You should see:
 ```
 USB Microphone starting...
-DMIC configured: 16000 Hz, 16-bit
+DMIC configured: 48000 Hz, 16-bit
 USB Audio initialized
 Audio streaming started
 USB Microphone ready - waiting for host to open stream
 USB status changed: 6
 USB configured - will start streaming in 2 seconds
-Read 320 bytes from DMIC, sending to USB
+Read 960 bytes from DMIC, sending to USB
 ```
 
 ## Troubleshooting
@@ -185,10 +185,10 @@ Read 320 bytes from DMIC, sending to USB
 
 ### Audio Configuration
 
-- **Sample Rate:** 16 kHz
+- **Sample Rate:** 48 kHz (configurable - edit `AUDIO_SAMPLE_RATE` in main.c and `sample-rate-hz` in overlay)
 - **Bit Depth:** 16-bit
 - **Channels:** Mono (left channel from PDM mic)
-- **Block Size:** 320 bytes (10ms of audio)
+- **Block Size:** 960 bytes (10ms of audio at 48 kHz)
 - **PDM Clock:** 1-3.5 MHz
 - **PDM Pins:** CLK=P1.00, DIN=P0.16
 
@@ -202,8 +202,24 @@ Read 320 bytes from DMIC, sending to USB
 ## Known Limitations
 
 - Uses legacy (deprecated) Zephyr USB device stack due to USB Audio Class requirements
-- Sample rate fixed at 16 kHz (configurable in source if needed)
 - Mono only (single PDM microphone)
+- Sample rates tested: 16 kHz, 44.1 kHz, 48 kHz
+
+## Customizing Sample Rate
+
+To change the sample rate, edit two files:
+
+1. **src/main.c** - Change `AUDIO_SAMPLE_RATE` (line 16):
+   ```c
+   #define AUDIO_SAMPLE_RATE 48000  // Change to 16000, 44100, 48000, etc.
+   ```
+
+2. **boards/xiao_ble_nrf52840_sense.overlay** - Update `sample-rate-hz`:
+   ```dts
+   sample-rate-hz = <48000>;  // Must match main.c value
+   ```
+
+After changing, rebuild and reflash the firmware.
 
 ## License
 

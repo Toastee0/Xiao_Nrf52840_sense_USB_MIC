@@ -1,0 +1,377 @@
+-- west build: making build dir M:\nrfprojects\usb_mic_xiao\build pristine
+-- west build: generating a build system
+Loading Zephyr module(s) (Zephyr base): sysbuild_default
+-- Found Python3: C:/Python313/python.exe (found suitable version "3.13.7", minimum required is "3.10") found components: Interpreter
+-- Cache files will be written to: C:/ncs/v3.2.1/zephyr/.cache
+-- Found west (found suitable version "1.4.0", minimum required is "0.14.0")
+-- Board: xiao_ble, qualifiers: nrf52840/sense
+Parsing C:/ncs/v3.2.1/zephyr/share/sysbuild/Kconfig
+Loaded configuration 'M:/nrfprojects/usb_mic_xiao/build/_sysbuild/empty.conf'
+Merged configuration 'M:/nrfprojects/usb_mic_xiao/build/_sysbuild/empty.conf'
+Configuration saved to 'M:/nrfprojects/usb_mic_xiao/build/zephyr/.config'
+Kconfig header saved to 'M:/nrfprojects/usb_mic_xiao/build/_sysbuild/autoconf.h'
+-- 
+   **********************************
+   * Running CMake for usb_mic_xiao *
+   **********************************
+
+Loading Zephyr default modules (Zephyr base).
+-- Application: M:/nrfprojects/usb_mic_xiao
+-- CMake version: 3.31.0-rc1
+-- Found Python3: C:/Python313/python.exe (found suitable version "3.13.7", minimum required is "3.10") found components: Interpreter
+-- Cache files will be written to: C:/ncs/v3.2.1/zephyr/.cache
+-- Zephyr version: 4.2.99 (C:/ncs/v3.2.1/zephyr)
+-- Found west (found suitable version "1.4.0", minimum required is "0.14.0")
+-- Board: xiao_ble, qualifiers: nrf52840/sense
+-- Found host-tools: zephyr 0.17.0 (C:/ncs/toolchains/66cdf9b75e/opt/zephyr-sdk)
+-- Found toolchain: zephyr 0.17.0 (C:/ncs/toolchains/66cdf9b75e/opt/zephyr-sdk)
+-- Could NOT find Dtc (missing: DTC) (Required is at least version "1.4.6")
+Hint: The project() command has not yet been called.  It sets up system-specific search paths.
+-- Found BOARD.dts: C:/ncs/v3.2.1/zephyr/boards/seeed/xiao_ble/xiao_ble_nrf52840_sense.dts
+-- Found devicetree overlay: M:/nrfprojects/usb_mic_xiao/boards/xiao_ble_nrf52840_sense.overlay
+-- Generated zephyr.dts: M:/nrfprojects/usb_mic_xiao/build/usb_mic_xiao/zephyr/zephyr.dts
+-- Generated pickled edt: M:/nrfprojects/usb_mic_xiao/build/usb_mic_xiao/zephyr/edt.pickle
+-- Generated devicetree_generated.h: M:/nrfprojects/usb_mic_xiao/build/usb_mic_xiao/zephyr/include/generated/zephyr/devicetree_generated.h
+
+warning: Deprecated symbol USB_DEVICE_DRIVER is enabled.
+
+
+warning: Deprecated symbol USB_DEVICE_STACK is enabled.
+
+
+warning: Experimental symbol USB_DEVICE_AUDIO is enabled.
+
+Parsing C:/ncs/v3.2.1/zephyr/Kconfig
+Loaded configuration 'C:/ncs/v3.2.1/zephyr/boards/seeed/xiao_ble/xiao_ble_nrf52840_sense_defconfig'
+Merged configuration 'M:/nrfprojects/usb_mic_xiao/prj.conf'
+Merged configuration 'M:/nrfprojects/usb_mic_xiao/build/usb_mic_xiao/zephyr/.config.sysbuild'
+Configuration saved to 'M:/nrfprojects/usb_mic_xiao/build/usb_mic_xiao/zephyr/.config'
+Kconfig header saved to 'M:/nrfprojects/usb_mic_xiao/build/usb_mic_xiao/zephyr/include/generated/zephyr/autoconf.h'
+-- Found GnuLd: c:/ncs/toolchains/66cdf9b75e/opt/zephyr-sdk/arm-zephyr-eabi/arm-zephyr-eabi/bin/ld.bfd.exe (found version "2.38")
+-- The C compiler identification is GNU 12.2.0
+-- The CXX compiler identification is GNU 12.2.0
+-- The ASM compiler identification is GNU
+-- Found assembler: C:/ncs/toolchains/66cdf9b75e/opt/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc.exe
+CMake Warning at C:/ncs/v3.2.1/zephyr/subsys/usb/device/CMakeLists.txt:22 (message):
+  CONFIG_USB_DEVICE_VID has default value 0x2FE3.
+
+  This value is only for testing and MUST be configured for USB products.
+
+
+CMake Warning at C:/ncs/v3.2.1/zephyr/subsys/usb/device/CMakeLists.txt:28 (message):
+  CONFIG_USB_DEVICE_PID has default value 0x100.
+
+  This value is only for testing and MUST be configured for USB products.
+
+
+-- Found gen_kobject_list: C:/ncs/v3.2.1/zephyr/scripts/build/gen_kobject_list.py
+-- Configuring done (11.4s)
+-- Generating done (0.6s)
+-- Build files have been written to: M:/nrfprojects/usb_mic_xiao/build/usb_mic_xiao
+-- Found partition manager static configuration : C:/ncs/v3.2.1/zephyr/boards/seeed/xiao_ble/pm_static.yml
+-- Configuring done (17.0s)
+-- Generating done (0.1s)
+-- Build files have been written to: M:/nrfprojects/usb_mic_xiao/build
+-- west build: building application
+[1/10] Creating directories for 'usb_mic_xiao'
+[2/10] No download step for 'usb_mic_xiao'
+[3/10] No update step for 'usb_mic_xiao'
+[4/10] No patch step for 'usb_mic_xiao'
+[5/10] No configure step for 'usb_mic_xiao'
+[5/10] Performing build step for 'usb_mic_xiao'
+[1/212] Generating ../../zephyr/include/generated/ncs_commit.h
+[2/212] Generating ../../zephyr/include/generated/zephyr_commit.h
+[3/212] Generating ../../zephyr/include/generated/ncs_version.h
+[4/212] Generating include/generated/zephyr/version.h
+-- Zephyr version: 4.2.99 (C:/ncs/v3.2.1/zephyr), build: ncs-v3.2.1
+[5/212] Generating misc/generated/syscalls.json, misc/generated/struct_tags.json
+[6/212] Generating include/generated/device-api-sections.ld, include/generated/device-api-sections.cmake
+[7/212] Generating include/generated/zephyr/syscall_dispatch.c, include/generated/zephyr/syscall_exports_llext.c, syscall_weakdefs_llext.c, include/generated/zephyr/syscall_list.h
+[8/212] Generating include/generated/zephyr/driver-validation.h
+[9/212] Generating include/generated/zephyr/kobj-types-enum.h, include/generated/zephyr/otype-to-str.h, include/generated/zephyr/otype-to-size.h
+[10/212] Building C object zephyr/CMakeFiles/offsets.dir/arch/arm/core/offsets/offsets.c.obj
+[11/212] Generating include/generated/zephyr/offsets.h
+[12/212] Building C object zephyr/CMakeFiles/zephyr.dir/lib/utils/last_section_id.c.obj
+[13/212] Building C object zephyr/CMakeFiles/zephyr.dir/lib/utils/dec.c.obj
+[14/212] Building C object zephyr/CMakeFiles/zephyr.dir/lib/utils/bitmask.c.obj
+[15/212] Building C object zephyr/CMakeFiles/zephyr.dir/lib/utils/hex.c.obj
+[16/212] Building C object zephyr/CMakeFiles/zephyr.dir/lib/utils/ring_buffer.c.obj
+[17/212] Building C object zephyr/CMakeFiles/zephyr.dir/misc/generated/configs.c.obj
+[18/212] Building C object zephyr/CMakeFiles/zephyr.dir/lib/utils/timeutil.c.obj
+[19/212] Building C object zephyr/CMakeFiles/zephyr.dir/lib/libc/validate_libc.c.obj
+[20/212] Building C object zephyr/arch/common/CMakeFiles/isr_tables.dir/isr_tables.c.obj
+[21/212] Building C object zephyr/CMakeFiles/zephyr.dir/lib/os/assert.c.obj
+[22/212] Building C object zephyr/CMakeFiles/zephyr.dir/lib/os/sem.c.obj
+[23/212] Building C object zephyr/CMakeFiles/zephyr.dir/lib/os/thread_entry.c.obj
+[24/212] Building C object zephyr/CMakeFiles/zephyr.dir/lib/os/printk.c.obj
+[25/212] Building C object zephyr/CMakeFiles/zephyr.dir/lib/utils/notify.c.obj
+[26/212] Building C object zephyr/CMakeFiles/zephyr.dir/lib/os/clock.c.obj
+[27/212] Building C object zephyr/CMakeFiles/zephyr.dir/lib/heap/heap.c.obj
+[28/212] Building C object zephyr/CMakeFiles/zephyr.dir/subsys/logging/log_cache.c.obj
+[29/212] Building C object zephyr/CMakeFiles/zephyr.dir/lib/utils/rb.c.obj
+[30/212] Building C object zephyr/CMakeFiles/zephyr.dir/lib/os/mpsc_pbuf.c.obj
+[31/212] Building C object zephyr/CMakeFiles/zephyr.dir/lib/utils/onoff.c.obj
+[32/212] Building C object zephyr/CMakeFiles/zephyr.dir/lib/os/cbprintf_packaged.c.obj
+[33/212] Building C object zephyr/CMakeFiles/zephyr.dir/lib/utils/bitarray.c.obj
+[34/212] Building C object zephyr/CMakeFiles/zephyr.dir/lib/os/cbprintf_complete.c.obj
+[35/212] Building C object zephyr/CMakeFiles/zephyr.dir/subsys/tracing/tracing_none.c.obj
+[36/212] Building C object zephyr/CMakeFiles/zephyr.dir/subsys/mem_mgmt/mem_attr.c.obj
+[37/212] Building C object zephyr/CMakeFiles/zephyr.dir/C_/ncs/v3.2.1/nrf/subsys/partition_manager/flash_map_partition_manager.c.obj
+[38/212] Building C object zephyr/CMakeFiles/zephyr.dir/subsys/logging/log_msg.c.obj
+[39/212] Building C object zephyr/CMakeFiles/zephyr.dir/subsys/logging/backends/log_backend_uart.c.obj
+[40/212] Building C object zephyr/CMakeFiles/zephyr.dir/subsys/logging/log_mgmt.c.obj
+[41/212] Building C object CMakeFiles/app.dir/src/main.c.obj
+M:/nrfprojects/usb_mic_xiao/src/main.c: In function 'data_thread':
+M:/nrfprojects/usb_mic_xiao/src/main.c:223:32: warning: implicit conversion from 'float' to 'double' when passing argument to function [-Wdouble-promotion]
+  223 |                                acc_x, acc_y, acc_z, gyr_x, gyr_y, gyr_z, coil_adc);
+      |                                ^~~~~
+M:/nrfprojects/usb_mic_xiao/src/main.c:223:39: warning: implicit conversion from 'float' to 'double' when passing argument to function [-Wdouble-promotion]
+  223 |                                acc_x, acc_y, acc_z, gyr_x, gyr_y, gyr_z, coil_adc);
+      |                                       ^~~~~
+M:/nrfprojects/usb_mic_xiao/src/main.c:223:46: warning: implicit conversion from 'float' to 'double' when passing argument to function [-Wdouble-promotion]
+  223 |                                acc_x, acc_y, acc_z, gyr_x, gyr_y, gyr_z, coil_adc);
+      |                                              ^~~~~
+M:/nrfprojects/usb_mic_xiao/src/main.c:223:53: warning: implicit conversion from 'float' to 'double' when passing argument to function [-Wdouble-promotion]
+  223 |                                acc_x, acc_y, acc_z, gyr_x, gyr_y, gyr_z, coil_adc);
+      |                                                     ^~~~~
+M:/nrfprojects/usb_mic_xiao/src/main.c:223:60: warning: implicit conversion from 'float' to 'double' when passing argument to function [-Wdouble-promotion]
+  223 |                                acc_x, acc_y, acc_z, gyr_x, gyr_y, gyr_z, coil_adc);
+      |                                                            ^~~~~
+M:/nrfprojects/usb_mic_xiao/src/main.c:223:67: warning: implicit conversion from 'float' to 'double' when passing argument to function [-Wdouble-promotion]
+  223 |                                acc_x, acc_y, acc_z, gyr_x, gyr_y, gyr_z, coil_adc);
+      |                                                                   ^~~~~
+M:/nrfprojects/usb_mic_xiao/src/main.c:222:25: warning: 'coil_adc' may be used uninitialized [-Wmaybe-uninitialized]
+  222 |                         printk("DATA:%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%u\n",
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  223 |                                acc_x, acc_y, acc_z, gyr_x, gyr_y, gyr_z, coil_adc);
+      |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+M:/nrfprojects/usb_mic_xiao/src/main.c:201:18: note: 'coil_adc' was declared here
+  201 |         uint16_t coil_adc;
+      |                  ^~~~~~~~
+M:/nrfprojects/usb_mic_xiao/src/main.c:222:25: warning: 'gyr_z' may be used uninitialized [-Wmaybe-uninitialized]
+  222 |                         printk("DATA:%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%u\n",
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  223 |                                acc_x, acc_y, acc_z, gyr_x, gyr_y, gyr_z, coil_adc);
+      |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+M:/nrfprojects/usb_mic_xiao/src/main.c:200:29: note: 'gyr_z' was declared here
+  200 |         float gyr_x, gyr_y, gyr_z;
+      |                             ^~~~~
+M:/nrfprojects/usb_mic_xiao/src/main.c:222:25: warning: 'gyr_y' may be used uninitialized [-Wmaybe-uninitialized]
+  222 |                         printk("DATA:%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%u\n",
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  223 |                                acc_x, acc_y, acc_z, gyr_x, gyr_y, gyr_z, coil_adc);
+      |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+M:/nrfprojects/usb_mic_xiao/src/main.c:200:22: note: 'gyr_y' was declared here
+  200 |         float gyr_x, gyr_y, gyr_z;
+      |                      ^~~~~
+M:/nrfprojects/usb_mic_xiao/src/main.c:222:25: warning: 'gyr_x' may be used uninitialized [-Wmaybe-uninitialized]
+  222 |                         printk("DATA:%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%u\n",
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  223 |                                acc_x, acc_y, acc_z, gyr_x, gyr_y, gyr_z, coil_adc);
+      |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+M:/nrfprojects/usb_mic_xiao/src/main.c:200:15: note: 'gyr_x' was declared here
+  200 |         float gyr_x, gyr_y, gyr_z;
+      |               ^~~~~
+M:/nrfprojects/usb_mic_xiao/src/main.c:222:25: warning: 'acc_z' may be used uninitialized [-Wmaybe-uninitialized]
+  222 |                         printk("DATA:%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%u\n",
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  223 |                                acc_x, acc_y, acc_z, gyr_x, gyr_y, gyr_z, coil_adc);
+      |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+M:/nrfprojects/usb_mic_xiao/src/main.c:199:29: note: 'acc_z' was declared here
+  199 |         float acc_x, acc_y, acc_z;
+      |                             ^~~~~
+M:/nrfprojects/usb_mic_xiao/src/main.c:222:25: warning: 'acc_y' may be used uninitialized [-Wmaybe-uninitialized]
+  222 |                         printk("DATA:%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%u\n",
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  223 |                                acc_x, acc_y, acc_z, gyr_x, gyr_y, gyr_z, coil_adc);
+      |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+M:/nrfprojects/usb_mic_xiao/src/main.c:199:22: note: 'acc_y' was declared here
+  199 |         float acc_x, acc_y, acc_z;
+      |                      ^~~~~
+M:/nrfprojects/usb_mic_xiao/src/main.c:222:25: warning: 'acc_x' may be used uninitialized [-Wmaybe-uninitialized]
+  222 |                         printk("DATA:%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%u\n",
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  223 |                                acc_x, acc_y, acc_z, gyr_x, gyr_y, gyr_z, coil_adc);
+      |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+M:/nrfprojects/usb_mic_xiao/src/main.c:199:15: note: 'acc_x' was declared here
+  199 |         float acc_x, acc_y, acc_z;
+      |               ^~~~~
+[42/212] Building C object zephyr/CMakeFiles/zephyr.dir/subsys/logging/log_output.c.obj
+[43/212] Linking C static library zephyr\arch\common\libisr_tables.a
+[44/212] Generating linker_zephyr_pre0.cmd
+[45/212] Building C object zephyr/arch/common/CMakeFiles/arch__common.dir/init.c.obj
+[46/212] Building C object zephyr/CMakeFiles/zephyr.dir/subsys/logging/log_core.c.obj
+[47/212] Building ASM object zephyr/arch/arch/arm/core/CMakeFiles/arch__arm__core.dir/nmi_on_reset.S.obj
+[48/212] Building C object zephyr/CMakeFiles/zephyr.dir/subsys/usb/device/usb_work_q.c.obj
+[49/212] Building ASM object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/fault_s.S.obj
+[50/212] Building C object zephyr/CMakeFiles/zephyr.dir/subsys/console/getline.c.obj
+[51/212] Building C object zephyr/CMakeFiles/zephyr.dir/C_/ncs/v3.2.1/nrf/lib/boot_banner/banner.c.obj
+[52/212] Building C object zephyr/CMakeFiles/zephyr.dir/C_/ncs/v3.2.1/nrfxlib/crypto/nrf_cc310_platform/src/nrf_cc3xx_platform_abort_zephyr.c.obj
+[53/212] Building ASM object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/vector_table.S.obj
+[54/212] Building C object zephyr/arch/common/CMakeFiles/arch__common.dir/sw_isr_common.c.obj
+[55/212] Building C object zephyr/arch/common/CMakeFiles/arch__common.dir/xip.c.obj
+[56/212] Building ASM object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/reset.S.obj
+[57/212] Building C object zephyr/CMakeFiles/zephyr.dir/C_/ncs/v3.2.1/nrfxlib/crypto/nrf_cc310_platform/src/nrf_cc3xx_platform_mutex_zephyr.c.obj
+[58/212] Building ASM object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/swap_helper.S.obj
+[59/212] Building C object zephyr/CMakeFiles/zephyr.dir/subsys/usb/device/usb_transfer.c.obj
+[60/212] Building ASM object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/__aeabi_read_tp.S.obj
+[61/212] Building C object zephyr/arch/arch/arm/core/CMakeFiles/arch__arm__core.dir/nmi.c.obj
+[62/212] Building C object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/exc_exit.c.obj
+[63/212] Building C object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/fpu.c.obj
+[64/212] Building C object zephyr/arch/arch/arm/core/CMakeFiles/arch__arm__core.dir/tls.c.obj
+[65/212] Building C object zephyr/arch/arch/arm/core/CMakeFiles/arch__arm__core.dir/fatal.c.obj
+[66/212] Building C object zephyr/CMakeFiles/zephyr.dir/subsys/usb/device/usb_descriptor.c.obj
+[67/212] Building C object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/thread_abort.c.obj
+[68/212] Building C object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/scb.c.obj
+[69/212] Building C object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/irq_manage.c.obj
+[70/212] Building C object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/prep_c.c.obj
+[71/212] Building C object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/irq_init.c.obj
+[72/212] Building C object zephyr/lib/libc/common/CMakeFiles/lib__libc__common.dir/source/time/time.c.obj
+[73/212] Building C object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/thread.c.obj
+[74/212] Building C object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/isr_wrapper.c.obj
+[75/212] Building C object zephyr/arch/arch/arm/core/mpu/CMakeFiles/arch__arm__core__mpu.dir/arm_mpu_regions.c.obj
+[76/212] Building C object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/cpu_idle.c.obj
+[77/212] Building C object zephyr/lib/libc/picolibc/CMakeFiles/lib__libc__picolibc.dir/assert.c.obj
+[78/212] Building C object zephyr/arch/arch/arm/core/mpu/CMakeFiles/arch__arm__core__mpu.dir/arm_core_mpu.c.obj
+[79/212] Building C object zephyr/lib/libc/picolibc/CMakeFiles/lib__libc__picolibc.dir/cbprintf.c.obj
+[80/212] Building C object zephyr/CMakeFiles/zephyr.dir/subsys/usb/device/class/cdc_acm.c.obj
+C:/ncs/v3.2.1/zephyr/subsys/usb/device/class/cdc_acm.c:65:2: warning: #warning "USB_CDC_ACM_LOG_LEVEL forced to LOG_LEVEL_NONE" [-Wcpp]
+   65 | #warning "USB_CDC_ACM_LOG_LEVEL forced to LOG_LEVEL_NONE"
+      |  ^~~~~~~
+[81/212] Building C object zephyr/lib/libc/picolibc/CMakeFiles/lib__libc__picolibc.dir/chk_fail.c.obj
+[82/212] Building C object zephyr/lib/libc/common/CMakeFiles/lib__libc__common.dir/source/stdlib/abort.c.obj
+[83/212] Building C object zephyr/lib/libc/picolibc/CMakeFiles/lib__libc__picolibc.dir/errno_wrap.c.obj
+[84/212] Building C object zephyr/lib/libc/picolibc/CMakeFiles/lib__libc__picolibc.dir/exit.c.obj
+[85/212] Building C object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/fault.c.obj
+[86/212] Building C object zephyr/lib/libc/picolibc/CMakeFiles/lib__libc__picolibc.dir/locks.c.obj
+[87/212] Building C object zephyr/lib/libc/picolibc/CMakeFiles/lib__libc__picolibc.dir/stdio.c.obj
+[88/212] Building C object zephyr/arch/arch/arm/core/mpu/CMakeFiles/arch__arm__core__mpu.dir/arm_mpu.c.obj
+[89/212] Building C object zephyr/lib/libc/common/CMakeFiles/lib__libc__common.dir/source/stdlib/malloc.c.obj
+[90/212] Building C object zephyr/soc/soc/nrf52840/CMakeFiles/soc__nordic.dir/validate_base_addresses.c.obj
+[91/212] Building C object zephyr/soc/soc/nrf52840/CMakeFiles/soc__nordic.dir/validate_binding_headers.c.obj
+[92/212] Building C object zephyr/soc/soc/nrf52840/CMakeFiles/soc__nordic.dir/validate_enabled_instances.c.obj
+[93/212] Building C object zephyr/soc/soc/nrf52840/CMakeFiles/soc__nordic.dir/common/gppi_init.c.obj
+[94/212] Building C object zephyr/soc/soc/nrf52840/CMakeFiles/soc__nordic.dir/common/reboot.c.obj
+[95/212] Building C object zephyr/CMakeFiles/zephyr.dir/subsys/usb/device/usb_device.c.obj
+[96/212] Building C object zephyr/soc/soc/nrf52840/CMakeFiles/soc__nordic.dir/nrf52/soc.c.obj
+[97/212] Building C object zephyr/lib/net_buf/CMakeFiles/lib__net_buf.dir/buf.c.obj
+[98/212] Building C object zephyr/drivers/adc/CMakeFiles/drivers__adc.dir/adc_common.c.obj
+[99/212] Building C object zephyr/lib/net_buf/CMakeFiles/lib__net_buf.dir/buf_simple.c.obj
+[100/212] Building C object zephyr/drivers/pinctrl/CMakeFiles/drivers__pinctrl.dir/common.c.obj
+[101/212] Building C object zephyr/drivers/hwinfo/CMakeFiles/drivers__hwinfo.dir/hwinfo_weak_impl.c.obj
+[102/212] Building C object zephyr/drivers/hwinfo/CMakeFiles/drivers__hwinfo.dir/hwinfo_nrf.c.obj
+[103/212] Building C object zephyr/drivers/console/CMakeFiles/drivers__console.dir/uart_console.c.obj
+[104/212] Building C object zephyr/soc/soc/nrf52840/CMakeFiles/soc__nordic.dir/common/gpiote_nrfx.c.obj
+[105/212] Building C object zephyr/drivers/clock_control/CMakeFiles/drivers__clock_control.dir/clock_control_nrf.c.obj
+[106/212] Building C object zephyr/subsys/usb/device/class/audio/CMakeFiles/subsys__usb__device__class__audio.dir/audio.c.obj
+[107/212] Building C object zephyr/drivers/i2c/CMakeFiles/drivers__i2c.dir/i2c_common.c.obj
+[108/212] Building C object zephyr/drivers/regulator/CMakeFiles/drivers__regulator.dir/regulator_common.c.obj
+[109/212] Building C object zephyr/drivers/i2c/CMakeFiles/drivers__i2c.dir/i2c_nrfx_twim_common.c.obj
+[110/212] Building C object zephyr/drivers/i2c/CMakeFiles/drivers__i2c.dir/i2c_nrfx_twim.c.obj
+[111/212] Building C object zephyr/drivers/serial/CMakeFiles/drivers__serial.dir/C_/ncs/v3.2.1/zephyr/misc/empty_file.c.obj
+[112/212] Building C object zephyr/drivers/regulator/CMakeFiles/drivers__regulator.dir/regulator_fixed.c.obj
+[113/212] Building C object zephyr/drivers/i2c/CMakeFiles/drivers__i2c.dir/i2c_nrfx_twi.c.obj
+[114/212] Building C object zephyr/drivers/usb/common/nrf_usbd_common/CMakeFiles/drivers__usb__common__nrf_usbd_common.dir/nrf_usbd_common.c.obj
+[115/212] Building C object zephyr/drivers/i2c/CMakeFiles/drivers__i2c.dir/i2c_nrfx_twi_common.c.obj
+[116/212] Building C object zephyr/drivers/sensor/st/lsm6dsl/CMakeFiles/drivers__sensor__st__lsm6dsl.dir/lsm6dsl_spi.c.obj
+[117/212] Building C object zephyr/drivers/sensor/nordic/temp/CMakeFiles/drivers__sensor__nordic__temp.dir/temp_nrf5.c.obj
+[118/212] Building C object zephyr/drivers/pinctrl/CMakeFiles/drivers__pinctrl.dir/pinctrl_nrf.c.obj
+[119/212] Building C object modules/hal_nordic/modules/hal_nordic/nrfx/CMakeFiles/modules__hal_nordic__nrfx.dir/C_/ncs/v3.2.1/modules/hal/nordic/nrfx/bsp/stable/mdk/system_nrf52840.c.obj
+[120/212] Building C object zephyr/drivers/audio/CMakeFiles/drivers__audio.dir/dmic_nrfx_pdm.c.obj
+[121/212] Building C object zephyr/drivers/sensor/st/lsm6dsl/CMakeFiles/drivers__sensor__st__lsm6dsl.dir/lsm6dsl_i2c.c.obj
+[122/212] Building C object zephyr/drivers/gpio/CMakeFiles/drivers__gpio.dir/gpio_nrfx.c.obj
+[123/212] Building C object zephyr/drivers/timer/CMakeFiles/drivers__timer.dir/sys_clock_init.c.obj
+[124/212] Building C object modules/nrf/drivers/hw_cc3xx/CMakeFiles/..__nrf__drivers__hw_cc3xx.dir/hw_cc3xx.c.obj
+[125/212] Building C object zephyr/drivers/sensor/st/lsm6dsl/CMakeFiles/drivers__sensor__st__lsm6dsl.dir/lsm6dsl.c.obj
+[126/212] Building C object zephyr/drivers/adc/CMakeFiles/drivers__adc.dir/adc_nrfx_saadc.c.obj
+[127/212] Building C object zephyr/drivers/timer/CMakeFiles/drivers__timer.dir/nrf_rtc_timer.c.obj
+[128/212] Building C object modules/hal_nordic/modules/hal_nordic/nrfx/CMakeFiles/modules__hal_nordic__nrfx.dir/nrfx_glue.c.obj
+[129/212] Building C object modules/hal_nordic/modules/hal_nordic/nrfx/CMakeFiles/modules__hal_nordic__nrfx.dir/C_/ncs/v3.2.1/modules/hal/nordic/nrfx/helpers/nrfx_flag32_allocator.c.obj
+[130/212] Building C object modules/hal_nordic/modules/hal_nordic/nrfx/CMakeFiles/modules__hal_nordic__nrfx.dir/C_/ncs/v3.2.1/modules/hal/nordic/nrfx/drivers/src/nrfx_clock_hfclkaudio.c.obj
+[131/212] Building C object modules/hal_nordic/modules/hal_nordic/nrfx/CMakeFiles/modules__hal_nordic__nrfx.dir/C_/ncs/v3.2.1/modules/hal/nordic/nrfx/drivers/src/nrfx_clock_hfclk192m.c.obj
+[132/212] Building C object modules/hal_nordic/modules/hal_nordic/nrfx/CMakeFiles/modules__hal_nordic__nrfx.dir/C_/ncs/v3.2.1/modules/hal/nordic/nrfx/drivers/src/nrfx_clock_xo.c.obj
+[133/212] Building C object modules/hal_nordic/modules/hal_nordic/nrfx/CMakeFiles/modules__hal_nordic__nrfx.dir/C_/ncs/v3.2.1/modules/hal/nordic/nrfx/helpers/nrfx_ram_ctrl.c.obj
+[134/212] Building C object modules/hal_nordic/modules/hal_nordic/nrfx/CMakeFiles/modules__hal_nordic__nrfx.dir/C_/ncs/v3.2.1/modules/hal/nordic/nrfx/drivers/src/nrfx_clock_xo24m.c.obj
+[135/212] Building C object modules/hal_nordic/modules/hal_nordic/nrfx/CMakeFiles/modules__hal_nordic__nrfx.dir/C_/ncs/v3.2.1/modules/hal/nordic/nrfx/helpers/nrfx_gppi_ppi.c.obj
+[136/212] Building C object modules/hal_nordic/modules/hal_nordic/nrfx/CMakeFiles/modules__hal_nordic__nrfx.dir/C_/ncs/v3.2.1/modules/hal/nordic/nrfx/drivers/src/nrfx_clock_hfclk.c.obj
+[137/212] Building C object modules/hal_nordic/modules/hal_nordic/nrfx/CMakeFiles/modules__hal_nordic__nrfx.dir/C_/ncs/v3.2.1/modules/hal/nordic/nrfx/drivers/src/nrfx_power.c.obj
+[138/212] Building C object modules/hal_nordic/modules/hal_nordic/nrfx/CMakeFiles/modules__hal_nordic__nrfx.dir/C_/ncs/v3.2.1/modules/hal/nordic/nrfx/drivers/src/nrfx_clock.c.obj
+[139/212] Building C object modules/hal_nordic/modules/hal_nordic/nrfx/CMakeFiles/modules__hal_nordic__nrfx.dir/C_/ncs/v3.2.1/modules/hal/nordic/nrfx/drivers/src/nrfx_clock_lfclk.c.obj
+[140/212] Building C object zephyr/drivers/usb/device/CMakeFiles/drivers__usb__device.dir/usb_dc_nrfx.c.obj
+[141/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/version.c.obj
+[142/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/main_weak.c.obj
+[143/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/banner.c.obj
+[144/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/busy_wait.c.obj
+[145/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/errno.c.obj
+[146/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/device.c.obj
+[147/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/float.c.obj
+[148/212] Building C object modules/hal_nordic/modules/hal_nordic/nrfx/CMakeFiles/modules__hal_nordic__nrfx.dir/C_/ncs/v3.2.1/modules/hal/nordic/nrfx/drivers/src/nrfx_twi_twim.c.obj
+[149/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/mem_slab.c.obj
+[150/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/fatal.c.obj
+[151/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/kheap.c.obj
+[152/212] Building C object modules/hal_nordic/modules/hal_nordic/nrfx/CMakeFiles/modules__hal_nordic__nrfx.dir/C_/ncs/v3.2.1/modules/hal/nordic/nrfx/drivers/src/nrfx_saadc.c.obj
+[153/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/idle.c.obj
+[154/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/init.c.obj
+[155/212] Building C object modules/hal_nordic/modules/hal_nordic/nrfx/CMakeFiles/modules__hal_nordic__nrfx.dir/C_/ncs/v3.2.1/modules/hal/nordic/nrfx/drivers/src/nrfx_pdm.c.obj
+[156/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/msg_q.c.obj
+[157/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/mailbox.c.obj
+[158/212] Linking C static library app\libapp.a
+[159/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/system_work_q.c.obj
+[160/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/queue.c.obj
+[161/212] Building C object zephyr/CMakeFiles/zephyr_pre0.dir/misc/empty_file.c.obj
+[162/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/sem.c.obj
+[163/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/mutex.c.obj
+[164/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/stack.c.obj
+[165/212] Linking C static library zephyr\arch\common\libarch__common.a
+[166/212] Linking C static library zephyr\arch\arch\arm\core\libarch__arm__core.a
+[167/212] Linking C static library zephyr\arch\arch\arm\core\mpu\libarch__arm__core__mpu.a
+[168/212] Linking C static library zephyr\libzephyr.a
+[169/212] Linking C static library zephyr\lib\libc\common\liblib__libc__common.a
+[170/212] Linking C static library zephyr\lib\libc\picolibc\liblib__libc__picolibc.a
+[171/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/condvar.c.obj
+[172/212] Linking C static library zephyr\lib\net_buf\liblib__net_buf.a
+[173/212] Linking C static library zephyr\arch\arch\arm\core\cortex_m\libarch__arm__core__cortex_m.a
+[174/212] Building C object modules/hal_nordic/modules/hal_nordic/nrfx/CMakeFiles/modules__hal_nordic__nrfx.dir/C_/ncs/v3.2.1/modules/hal/nordic/nrfx/drivers/src/nrfx_twim.c.obj
+[175/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/timeslicing.c.obj
+[176/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/dynamic_disabled.c.obj
+[177/212] Linking C static library zephyr\subsys\usb\device\class\audio\libsubsys__usb__device__class__audio.a
+[178/212] Linking C static library zephyr\soc\soc\nrf52840\libsoc__nordic.a
+[179/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/mempool.c.obj
+[180/212] Linking C static library zephyr\drivers\audio\libdrivers__audio.a
+[181/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/timer.c.obj
+[182/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/pipe.c.obj
+[183/212] Linking C static library zephyr\drivers\usb\device\libdrivers__usb__device.a
+[184/212] Linking C static library zephyr\drivers\usb\common\nrf_usbd_common\libdrivers__usb__common__nrf_usbd_common.a
+[185/212] Linking C static library zephyr\drivers\adc\libdrivers__adc.a
+[186/212] Linking C static library zephyr\drivers\clock_control\libdrivers__clock_control.a
+[187/212] Linking C static library zephyr\drivers\console\libdrivers__console.a
+[188/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/timeout.c.obj
+[189/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/thread.c.obj
+[190/212] Linking C static library zephyr\drivers\gpio\libdrivers__gpio.a
+[191/212] Building C object modules/hal_nordic/modules/hal_nordic/nrfx/CMakeFiles/modules__hal_nordic__nrfx.dir/C_/ncs/v3.2.1/modules/hal/nordic/nrfx/drivers/src/nrfx_twi.c.obj
+[192/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/work.c.obj
+[193/212] Linking C static library zephyr\drivers\hwinfo\libdrivers__hwinfo.a
+[194/212] Linking C static library zephyr\drivers\regulator\libdrivers__regulator.a
+[195/212] Linking C static library zephyr\drivers\i2c\libdrivers__i2c.a
+[196/212] Linking C static library zephyr\drivers\sensor\nordic\temp\libdrivers__sensor__nordic__temp.a
+[197/212] Linking C static library zephyr\drivers\pinctrl\libdrivers__pinctrl.a
+[198/212] Linking C static library zephyr\drivers\sensor\st\lsm6dsl\libdrivers__sensor__st__lsm6dsl.a
+[199/212] Linking C static library modules\nrf\drivers\hw_cc3xx\lib..__nrf__drivers__hw_cc3xx.a
+[200/212] Linking C static library zephyr\drivers\timer\libdrivers__timer.a
+[201/212] Building C object modules/hal_nordic/modules/hal_nordic/nrfx/CMakeFiles/modules__hal_nordic__nrfx.dir/C_/ncs/v3.2.1/modules/hal/nordic/nrfx/drivers/src/nrfx_gpiote.c.obj
+[202/212] Building C object zephyr/kernel/CMakeFiles/kernel.dir/sched.c.obj
+[203/212] Linking C static library modules\hal_nordic\modules\hal_nordic\nrfx\libmodules__hal_nordic__nrfx.a
+[204/212] Linking C static library zephyr\kernel\libkernel.a
+[205/212] Building C object zephyr/drivers/serial/CMakeFiles/drivers__serial.dir/uart_nrfx_uarte.c.obj
+[206/212] Linking C static library zephyr\drivers\serial\libdrivers__serial.a
+[207/212] Linking C executable zephyr\zephyr_pre0.elf
+FAILED: zephyr/zephyr_pre0.elf zephyr/zephyr_pre0.map M:/nrfprojects/usb_mic_xiao/build/usb_mic_xiao/zephyr/zephyr_pre0.map 
+C:\WINDOWS\system32\cmd.exe /C "cd . && C:\ncs\toolchains\66cdf9b75e\opt\zephyr-sdk\arm-zephyr-eabi\bin\arm-zephyr-eabi-gcc.exe  -gdwarf-4 -Os zephyr/CMakeFiles/zephyr_pre0.dir/misc/empty_file.c.obj -o zephyr\zephyr_pre0.elf  zephyr/CMakeFiles/offsets.dir/./arch/arm/core/offsets/offsets.c.obj  -T  zephyr/linker_zephyr_pre0.cmd  -Wl,-Map,M:/nrfprojects/usb_mic_xiao/build/usb_mic_xiao/zephyr/zephyr_pre0.map  -Wl,--whole-archive  app/libapp.a  zephyr/libzephyr.a  zephyr/arch/common/libarch__common.a  zephyr/arch/arch/arm/core/libarch__arm__core.a  zephyr/arch/arch/arm/core/cortex_m/libarch__arm__core__cortex_m.a  zephyr/arch/arch/arm/core/mpu/libarch__arm__core__mpu.a  zephyr/lib/libc/picolibc/liblib__libc__picolibc.a  zephyr/lib/libc/common/liblib__libc__common.a  zephyr/lib/net_buf/liblib__net_buf.a  zephyr/soc/soc/nrf52840/libsoc__nordic.a  zephyr/subsys/usb/device/class/audio/libsubsys__usb__device__class__audio.a  zephyr/drivers/usb/device/libdrivers__usb__device.a  zephyr/drivers/usb/common/nrf_usbd_common/libdrivers__usb__common__nrf_usbd_common.a  zephyr/drivers/adc/libdrivers__adc.a  zephyr/drivers/audio/libdrivers__audio.a  zephyr/drivers/clock_control/libdrivers__clock_control.a  zephyr/drivers/console/libdrivers__console.a  zephyr/drivers/gpio/libdrivers__gpio.a  zephyr/drivers/hwinfo/libdrivers__hwinfo.a  zephyr/drivers/i2c/libdrivers__i2c.a  zephyr/drivers/pinctrl/libdrivers__pinctrl.a  zephyr/drivers/regulator/libdrivers__regulator.a  zephyr/drivers/sensor/nordic/temp/libdrivers__sensor__nordic__temp.a  zephyr/drivers/sensor/st/lsm6dsl/libdrivers__sensor__st__lsm6dsl.a  zephyr/drivers/serial/libdrivers__serial.a  zephyr/drivers/timer/libdrivers__timer.a  modules/nrf/drivers/hw_cc3xx/lib..__nrf__drivers__hw_cc3xx.a  modules/hal_nordic/modules/hal_nordic/nrfx/libmodules__hal_nordic__nrfx.a  -Wl,--no-whole-archive  zephyr/kernel/libkernel.a  -LM:/nrfprojects/usb_mic_xiao/build/usb_mic_xiao/zephyr  zephyr/arch/common/libisr_tables.a  -mcpu=cortex-m4  -mthumb  -mabi=aapcs  -mfp16-format=ieee  -mtp=soft  -fuse-ld=bfd  -Wl,--gc-sections  -Wl,--build-id=none  -Wl,--sort-common=descending  -Wl,--sort-section=alignment  -Wl,-u,_OffsetAbsSyms  -Wl,-u,_ConfigAbsSyms  -nostdlib  -static  -Wl,-X  -Wl,-N  -Wl,--orphan-handling=warn  -Wl,-no-pie  -Wl,--undefined=_sw_isr_table  -Wl,--undefined=_irq_vector_table  -specs=picolibc.specs  -DPICOLIBC_DOUBLE_PRINTF_SCANF  C:/ncs/v3.2.1/nrfxlib/crypto/nrf_cc310_platform/lib/cortex-m4/soft-float/no-interrupts/libnrf_cc310_platform_0.9.19.a -Lc:/ncs/toolchains/66cdf9b75e/opt/zephyr-sdk/arm-zephyr-eabi/bin/../lib/gcc/arm-zephyr-eabi/12.2.0/thumb/v7e-m/nofp -lc -lgcc && C:\WINDOWS\system32\cmd.exe /C "cd /D M:\nrfprojects\usb_mic_xiao\build\usb_mic_xiao\zephyr && M:\CMake\bin\cmake.exe -E true""
+c:/ncs/toolchains/66cdf9b75e/opt/zephyr-sdk/arm-zephyr-eabi/bin/../lib/gcc/arm-zephyr-eabi/12.2.0/../../../../arm-zephyr-eabi/bin/ld.bfd.exe: app/libapp.a(main.c.obj): in function `main':
+M:/nrfprojects/usb_mic_xiao/src/main.c:371: undefined reference to `console_init'
+collect2.exe: error: ld returned 1 exit status
+ninja: build stopped: subcommand failed.
+FAILED: _sysbuild/sysbuild/images/usb_mic_xiao-prefix/src/usb_mic_xiao-stamp/usb_mic_xiao-build M:/nrfprojects/usb_mic_xiao/build/_sysbuild/sysbuild/images/usb_mic_xiao-prefix/src/usb_mic_xiao-stamp/usb_mic_xiao-build 
+C:\WINDOWS\system32\cmd.exe /C "cd /D M:\nrfprojects\usb_mic_xiao\build\usb_mic_xiao && M:\CMake\bin\cmake.exe --build ."
+ninja: build stopped: subcommand failed.
+FATAL ERROR: command exited with status 1: 'M:\CMake\bin\cmake.EXE' --build M:/nrfprojects/usb_mic_xiao/build

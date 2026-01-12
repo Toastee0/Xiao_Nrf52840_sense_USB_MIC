@@ -12,7 +12,6 @@
 #include <zephyr/usb/usb_ch9.h>
 #include <zephyr/logging/log.h>
 #include <zephyr/drivers/adc.h>
-#include <zephyr/drivers/sensor.h>
 #include <zephyr/sys/printk.h>
 
 LOG_MODULE_REGISTER(vapelogger, LOG_LEVEL_INF);
@@ -47,9 +46,6 @@ static struct adc_sequence adc_seq = {
 	.resolution = 12,
 };
 
-/* IMU device for motion tracking */
-static const struct device *imu_dev = NULL;
-
 /* DMIC configuration */
 static struct pcm_stream_cfg stream = {
 	.pcm_width = SAMPLE_BIT_WIDTH,
@@ -72,27 +68,14 @@ static struct dmic_cfg cfg = {
 /* USB device status callback */
 static void usb_status_cb(enum usb_dc_status_code status, const uint8_t *param)
 {
-	printk("USB status: %d\n", status);
 	LOG_INF("USB status changed: %d", status);
 	
-	switch (status) {
-	case USB_DC_CONNECTED:
-		printk("USB connected\n");
-		break;
-	case USB_DC_CONFIGURED:
-		printk("USB configured - waiting for host to request audio\n");
-		LOG_INF("USB configured - device ready");
-		break;
-	case USB_DC_DISCONNECTED:
-		printk("USB disconnected\n");
-		usb_enabled = false;
-		if (audio_running && dmic_dev) {
-			dmic_trigger(dmic_dev, DMIC_TRIGGER_STOP);
-			audio_running = false;
-		}
-		break;
-	default:
-		break;
+	/* USB_DC_CONFIGURED = 6 */
+	if (status == 6) {
+		LOG_INF("USB configured - will start streaming in 2 seconds");
+		/* Give host time to set up, then start streaming */
+		k_sleep(K_MSEC(2000));
+		usb_enabled = true;
 	}
 }
 
@@ -100,22 +83,8 @@ static void usb_status_cb(enum usb_dc_status_code status, const uint8_t *param)
 static void data_request(const struct device *dev)
 {
 	if (!usb_enabled) {
-		printk("Host requesting audio - starting DMIC\n");
-		LOG_INF("USB audio stream enabled by host");
-		
-		/* Start DMIC streaming now that host wants data */
-		if (dmic_dev && !audio_running) {
-			int ret = dmic_trigger(dmic_dev, DMIC_TRIGGER_START);
-			if (ret == 0) {
-				audio_running = true;
-				printk("DMIC started successfully\n");
-				LOG_INF("Audio streaming started");
-			} else {
-				printk("DMIC start failed: %d\n", ret);
-				LOG_ERR("DMIC trigger failed: %d", ret);
-			}
-		}
 		usb_enabled = true;
+		LOG_INF("USB audio stream enabled by host via data_request");
 	}
 }
 
@@ -211,65 +180,6 @@ static void adc_thread(void *arg1, void *arg2, void *arg3)
 
 K_THREAD_DEFINE(adc_tid, 1024, adc_thread, NULL, NULL, NULL, 8, 0, 0);
 
-/* Thread to read IMU and output to serial */
-static void imu_thread(void *arg1, void *arg2, void *arg3)
-{
-	ARG_UNUSED(arg1);
-	ARG_UNUSED(arg2);
-	ARG_UNUSED(arg3);
-
-	struct sensor_value accel_x, accel_y, accel_z;
-	struct sensor_value gyro_x, gyro_y, gyro_z;
-	int ret;
-
-	/* Wait for system to stabilize and IMU to be initialized */
-	k_sleep(K_SECONDS(3));
-
-	/* Check if IMU was initialized */
-	if (imu_dev == NULL) {
-		LOG_WRN("IMU not initialized, thread exiting");
-		return;
-	}
-
-	LOG_INF("IMU monitoring started");
-
-	while (1) {
-		ret = sensor_sample_fetch(imu_dev);
-		if (ret < 0) {
-			LOG_ERR("IMU fetch failed: %d", ret);
-			k_sleep(K_MSEC(100));
-			continue;
-		}
-
-		/* Read accelerometer (m/s²) */
-		sensor_channel_get(imu_dev, SENSOR_CHAN_ACCEL_X, &accel_x);
-		sensor_channel_get(imu_dev, SENSOR_CHAN_ACCEL_Y, &accel_y);
-		sensor_channel_get(imu_dev, SENSOR_CHAN_ACCEL_Z, &accel_z);
-
-		/* Read gyroscope (rad/s) */
-		sensor_channel_get(imu_dev, SENSOR_CHAN_GYRO_X, &gyro_x);
-		sensor_channel_get(imu_dev, SENSOR_CHAN_GYRO_Y, &gyro_y);
-		sensor_channel_get(imu_dev, SENSOR_CHAN_GYRO_Z, &gyro_z);
-
-		/* Convert to integers (multiply by 100 to keep 2 decimal places) */
-		int32_t ax = (accel_x.val1 * 100) + (accel_x.val2 / 10000);
-		int32_t ay = (accel_y.val1 * 100) + (accel_y.val2 / 10000);
-		int32_t az = (accel_z.val1 * 100) + (accel_z.val2 / 10000);
-		int32_t gx = (gyro_x.val1 * 100) + (gyro_x.val2 / 10000);
-		int32_t gy = (gyro_y.val1 * 100) + (gyro_y.val2 / 10000);
-		int32_t gz = (gyro_z.val1 * 100) + (gyro_z.val2 / 10000);
-
-		/* Print IMU data as integers (divide by 100 for actual value) */
-		printk("IMU:%d.%02d,%d.%02d,%d.%02d,%d.%02d,%d.%02d,%d.%02d\n",
-			ax/100, abs(ax%100), ay/100, abs(ay%100), az/100, abs(az%100),
-			gx/100, abs(gx%100), gy/100, abs(gy%100), gz/100, abs(gz%100));
-
-		k_sleep(K_MSEC(50));  /* 20 Hz update rate */
-	}
-}
-
-K_THREAD_DEFINE(imu_tid, 1536, imu_thread, NULL, NULL, NULL, 8, 0, 0);
-
 static int init_dmic(void)
 {
 	int ret;
@@ -339,121 +249,61 @@ static int init_adc(void)
 	return 0;
 }
 
-static int init_imu(void)
+static int start_audio(void)
 {
 	int ret;
-	struct sensor_value odr, range;
 
-	imu_dev = DEVICE_DT_GET(DT_NODELABEL(lsm6ds3tr_c));
-	if (!device_is_ready(imu_dev)) {
-		LOG_ERR("IMU device not ready");
-		imu_dev = NULL;
-		return -ENODEV;
-	}
-
-	/* Set accelerometer ODR to 104 Hz */
-	odr.val1 = 104;
-	odr.val2 = 0;
-	ret = sensor_attr_set(imu_dev, SENSOR_CHAN_ACCEL_XYZ,
-			      SENSOR_ATTR_SAMPLING_FREQUENCY, &odr);
+	ret = dmic_trigger(dmic_dev, DMIC_TRIGGER_START);
 	if (ret < 0) {
-		LOG_WRN("Failed to set accel ODR: %d", ret);
+		LOG_ERR("DMIC trigger start failed: %d", ret);
+		return ret;
 	}
 
-	/* Set accelerometer range to ±2g */
-	range.val1 = 2;
-	range.val2 = 0;
-	ret = sensor_attr_set(imu_dev, SENSOR_CHAN_ACCEL_XYZ,
-			      SENSOR_ATTR_FULL_SCALE, &range);
-	if (ret < 0) {
-		LOG_WRN("Failed to set accel range: %d", ret);
-	}
-
-	/* Set gyroscope ODR to 104 Hz */
-	ret = sensor_attr_set(imu_dev, SENSOR_CHAN_GYRO_XYZ,
-			      SENSOR_ATTR_SAMPLING_FREQUENCY, &odr);
-	if (ret < 0) {
-		LOG_WRN("Failed to set gyro ODR: %d", ret);
-	}
-
-	/* Set gyroscope range to ±250 dps */
-	range.val1 = 250;
-	range.val2 = 0;
-	ret = sensor_attr_set(imu_dev, SENSOR_CHAN_GYRO_XYZ,
-			      SENSOR_ATTR_FULL_SCALE, &range);
-	if (ret < 0) {
-		LOG_WRN("Failed to set gyro range: %d", ret);
-	}
-
-	LOG_INF("IMU (LSM6DS3) initialized and configured");
-	printk("IMU configured: 104Hz, ±2g accel, ±250dps gyro\n");
+	audio_running = true;
+	LOG_INF("Audio streaming started");
 	return 0;
 }
-
-/* Audio is now started from usb_status_cb when USB_DC_CONFIGURED */
 
 int main(void)
 {
 	int ret;
 
-	printk("\n\n=== VapeLogger Starting ===\n");
 	LOG_INF("VapeLogger starting...");
-
-	/* Small delay for USB to stabilize */
-	k_sleep(K_MSEC(500));
 
 	/* Initialize USB first for device enumeration */
 	ret = init_usb_audio();
 	if (ret < 0) {
 		LOG_ERR("USB Audio init failed: %d", ret);
-		printk("ERROR: USB init failed: %d\n", ret);
-		/* Don't return - continue in degraded mode */
-	} else {
-		printk("USB Audio initialized OK\n");
+		return ret;
 	}
 
 	/* Initialize DMIC */
 	ret = init_dmic();
 	if (ret < 0) {
 		LOG_ERR("DMIC init failed: %d", ret);
-		printk("ERROR: DMIC init failed: %d\n", ret);
-		/* Don't return - continue without audio */
-	} else {
-		printk("DMIC initialized OK\n");
+		return ret;
 	}
 
 	/* Initialize ADC (non-critical) */
 	ret = init_adc();
 	if (ret < 0) {
 		LOG_WRN("ADC init failed: %d - continuing without ADC", ret);
-		printk("WARNING: ADC init failed: %d\n", ret);
-	} else {
-		printk("ADC initialized OK\n");
-	}
-
-	/* Initialize IMU (non-critical) */
-	ret = init_imu();
-	if (ret < 0) {
-		LOG_WRN("IMU init failed: %d - continuing without IMU", ret);
-		printk("WARNING: IMU init failed: %d\n", ret);
-	} else {
-		printk("IMU initialized OK\n");
+		/* Continue anyway */
 	}
 
 	k_sleep(K_MSEC(1000));
 
-	/* Audio will start automatically when USB host configures the device */
-	printk("\n=== VapeLogger Ready ===\n");
-	printk("Waiting for USB host to configure audio device...\n");
-	printk("Audio will start automatically when host is ready\n");
-	LOG_INF("VapeLogger ready - waiting for USB host configuration");
-
-	/* Main loop - NEVER return from main() */
-	while (1) {
-		k_sleep(K_SECONDS(5));
-		printk(".");  /* Heartbeat */
+	ret = start_audio();
+	if (ret < 0) {
+		LOG_ERR("Audio start failed: %d", ret);
+		return ret;
 	}
 
-	/* Should never reach here */
+	LOG_INF("VapeLogger ready - USB audio + ADC coil monitoring active");
+
+	while (1) {
+		k_sleep(K_SECONDS(1));
+	}
+
 	return 0;
 }

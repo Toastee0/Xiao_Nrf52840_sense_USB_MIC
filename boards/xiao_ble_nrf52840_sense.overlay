@@ -1,15 +1,43 @@
 /*
  * Device tree overlay for XIAO nRF52840 Sense
- * Enables PDM microphone for USB audio
+ * Enables PDM microphone for USB audio, ADC for coil monitoring, and IMU
  */
 
 #include "xiao_ble-pinctrl.dtsi"
+#include <zephyr/dt-bindings/i2c/i2c.h>
+#include <zephyr/dt-bindings/gpio/nordic-nrf-gpio.h>
+
+/ {
+	lsm6ds3tr-c-en {
+		compatible = "regulator-fixed-sync", "regulator-fixed";
+		enable-gpios = <&gpio1 8 (NRF_GPIO_DRIVE_S0H1 | GPIO_ACTIVE_HIGH)>;
+		regulator-name = "LSM6DS3TR_C_EN";
+		regulator-boot-on;
+		startup-delay-us = <3000>;
+	};
+};
 
 &pdm0 {
 	status = "okay";
 	pinctrl-0 = <&pdm0_default>;
 	pinctrl-1 = <&pdm0_sleep>;
 	pinctrl-names = "default", "sleep";
+};
+
+&i2c0 {
+	compatible = "nordic,nrf-twim";
+	status = "okay";
+	pinctrl-0 = <&i2c0_default>;
+	pinctrl-1 = <&i2c0_sleep>;
+	pinctrl-names = "default", "sleep";
+	clock-frequency = <I2C_BITRATE_FAST>;
+
+	lsm6ds3tr_c: lsm6ds3tr-c@6a {
+		compatible = "st,lsm6dsl";
+		reg = <0x6a>;
+		irq-gpios = <&gpio0 11 GPIO_ACTIVE_HIGH>;
+		status = "okay";
+	};
 };
 
 &zephyr_udc0 {

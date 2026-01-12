@@ -1,6 +1,7 @@
 /*
- * USB Microphone for XIAO nRF52840 Sense
+ * VapeLogger for XIAO nRF52840 Sense
  * Streams PDM microphone data as USB Audio device
+ * Streams ADC coil data via serial UART
  */
 
 #include <zephyr/kernel.h>
@@ -10,8 +11,10 @@
 #include <zephyr/usb/class/usb_audio.h>
 #include <zephyr/usb/usb_ch9.h>
 #include <zephyr/logging/log.h>
+#include <zephyr/drivers/adc.h>
+#include <zephyr/sys/printk.h>
 
-LOG_MODULE_REGISTER(usb_mic, LOG_LEVEL_INF);
+LOG_MODULE_REGISTER(vapelogger, LOG_LEVEL_INF);
 
 #define AUDIO_SAMPLE_RATE 48000
 #define SAMPLE_BIT_WIDTH 16
@@ -25,6 +28,23 @@ static const struct device *dmic_dev;
 static const struct device *mic_usb_dev;
 static bool audio_running = false;
 static bool usb_enabled = false;
+
+/* ADC device for coil monitoring */
+static const struct device *adc_dev = NULL;
+static struct adc_channel_cfg adc_cfg = {
+	.gain = ADC_GAIN_1_6,
+	.reference = ADC_REF_INTERNAL,
+	.acquisition_time = ADC_ACQ_TIME_DEFAULT,
+	.channel_id = 0,
+	.input_positive = SAADC_CH_PSELP_PSELP_AnalogInput0, /* A0 */
+};
+static int16_t adc_sample_buffer;
+static struct adc_sequence adc_seq = {
+	.channels = BIT(0),
+	.buffer = &adc_sample_buffer,
+	.buffer_size = sizeof(adc_sample_buffer),
+	.resolution = 12,
+};
 
 /* DMIC configuration */
 static struct pcm_stream_cfg stream = {
@@ -48,14 +68,27 @@ static struct dmic_cfg cfg = {
 /* USB device status callback */
 static void usb_status_cb(enum usb_dc_status_code status, const uint8_t *param)
 {
+	printk("USB status: %d\n", status);
 	LOG_INF("USB status changed: %d", status);
 	
-	/* USB_DC_CONFIGURED = 6 */
-	if (status == 6) {
-		LOG_INF("USB configured - will start streaming in 2 seconds");
-		/* Give host time to set up, then start streaming */
-		k_sleep(K_MSEC(2000));
-		usb_enabled = true;
+	switch (status) {
+	case USB_DC_CONNECTED:
+		printk("USB connected\n");
+		break;
+	case USB_DC_CONFIGURED:
+		printk("USB configured - waiting for host to request audio\n");
+		LOG_INF("USB configured - device ready");
+		break;
+	case USB_DC_DISCONNECTED:
+		printk("USB disconnected\n");
+		usb_enabled = false;
+		if (audio_running && dmic_dev) {
+			dmic_trigger(dmic_dev, DMIC_TRIGGER_STOP);
+			audio_running = false;
+		}
+		break;
+	default:
+		break;
 	}
 }
 
@@ -63,8 +96,22 @@ static void usb_status_cb(enum usb_dc_status_code status, const uint8_t *param)
 static void data_request(const struct device *dev)
 {
 	if (!usb_enabled) {
+		printk("Host requesting audio - starting DMIC\n");
+		LOG_INF("USB audio stream enabled by host");
+		
+		/* Start DMIC streaming now that host wants data */
+		if (dmic_dev && !audio_running) {
+			int ret = dmic_trigger(dmic_dev, DMIC_TRIGGER_START);
+			if (ret == 0) {
+				audio_running = true;
+				printk("DMIC started successfully\n");
+				LOG_INF("Audio streaming started");
+			} else {
+				printk("DMIC start failed: %d\n", ret);
+				LOG_ERR("DMIC trigger failed: %d", ret);
+			}
+		}
 		usb_enabled = true;
-		LOG_INF("USB audio stream enabled by host via data_request");
 	}
 }
 
@@ -124,6 +171,42 @@ static void audio_thread(void *arg1, void *arg2, void *arg3)
 
 K_THREAD_DEFINE(audio_tid, 2048, audio_thread, NULL, NULL, NULL, 7, 0, 0);
 
+/* Thread to read ADC and output to serial */
+static void adc_thread(void *arg1, void *arg2, void *arg3)
+{
+	ARG_UNUSED(arg1);
+	ARG_UNUSED(arg2);
+	ARG_UNUSED(arg3);
+
+	uint16_t adc_val;
+	int ret;
+
+	/* Wait for system to stabilize and ADC to be initialized */
+	k_sleep(K_SECONDS(3));
+
+	/* Check if ADC was initialized */
+	if (adc_dev == NULL) {
+		LOG_WRN("ADC not initialized, thread exiting");
+		return;
+	}
+
+	LOG_INF("ADC monitoring started");
+
+	while (1) {
+		ret = adc_read(adc_dev, &adc_seq);
+		if (ret < 0) {
+			LOG_ERR("ADC read failed: %d", ret);
+		} else {
+			adc_val = (uint16_t)adc_sample_buffer;
+			printk("COIL:%u\n", adc_val);
+		}
+
+		k_sleep(K_MSEC(100));
+	}
+}
+
+K_THREAD_DEFINE(adc_tid, 1024, adc_thread, NULL, NULL, NULL, 8, 0, 0);
+
 static int init_dmic(void)
 {
 	int ret;
@@ -171,52 +254,83 @@ static int init_usb_audio(void)
 	return 0;
 }
 
-static int start_audio(void)
+static int init_adc(void)
 {
 	int ret;
 
-	ret = dmic_trigger(dmic_dev, DMIC_TRIGGER_START);
+	adc_dev = DEVICE_DT_GET(DT_NODELABEL(adc));
+	if (!device_is_ready(adc_dev)) {
+		LOG_ERR("ADC device not ready");
+		adc_dev = NULL;
+		return -ENODEV;
+	}
+
+	ret = adc_channel_setup(adc_dev, &adc_cfg);
 	if (ret < 0) {
-		LOG_ERR("DMIC trigger start failed: %d", ret);
+		LOG_ERR("ADC channel setup failed: %d", ret);
+		adc_dev = NULL;
 		return ret;
 	}
 
-	audio_running = true;
-	LOG_INF("Audio streaming started");
+	LOG_INF("ADC initialized on A0");
 	return 0;
 }
+
+/* Audio is now started from usb_status_cb when USB_DC_CONFIGURED */
 
 int main(void)
 {
 	int ret;
 
-	LOG_INF("USB Microphone starting...");
+	printk("\n\n=== VapeLogger Starting ===\n");
+	LOG_INF("VapeLogger starting...");
 
-	ret = init_dmic();
-	if (ret < 0) {
-		LOG_ERR("DMIC init failed: %d", ret);
-		return ret;
-	}
+	/* Small delay for USB to stabilize */
+	k_sleep(K_MSEC(500));
 
+	/* Initialize USB first for device enumeration */
 	ret = init_usb_audio();
 	if (ret < 0) {
 		LOG_ERR("USB Audio init failed: %d", ret);
-		return ret;
+		printk("ERROR: USB init failed: %d\n", ret);
+		/* Don't return - continue in degraded mode */
+	} else {
+		printk("USB Audio initialized OK\n");
+	}
+
+	/* Initialize DMIC */
+	ret = init_dmic();
+	if (ret < 0) {
+		LOG_ERR("DMIC init failed: %d", ret);
+		printk("ERROR: DMIC init failed: %d\n", ret);
+		/* Don't return - continue without audio */
+	} else {
+		printk("DMIC initialized OK\n");
+	}
+
+	/* Initialize ADC (non-critical) */
+	ret = init_adc();
+	if (ret < 0) {
+		LOG_WRN("ADC init failed: %d - continuing without ADC", ret);
+		printk("WARNING: ADC init failed: %d\n", ret);
+	} else {
+		printk("ADC initialized OK\n");
 	}
 
 	k_sleep(K_MSEC(1000));
 
-	ret = start_audio();
-	if (ret < 0) {
-		LOG_ERR("Audio start failed: %d", ret);
-		return ret;
-	}
+	/* Audio will start automatically when USB host configures the device */
+	printk("\n=== VapeLogger Ready ===\n");
+	printk("Waiting for USB host to configure audio device...\n");
+	printk("Audio will start automatically when host is ready\n");
+	LOG_INF("VapeLogger ready - waiting for USB host configuration");
 
-	LOG_INF("USB Microphone ready - waiting for host to open stream");
-
+	/* Main loop - NEVER return from main() */
 	while (1) {
-		k_sleep(K_SECONDS(1));
+		k_sleep(K_SECONDS(5));
+		printk(".");  /* Heartbeat */
 	}
 
+	/* Should never reach here */
 	return 0;
 }

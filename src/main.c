@@ -50,6 +50,12 @@ static struct adc_sequence adc_seq = {
 /* IMU device for motion tracking */
 static const struct device *imu_dev = NULL;
 
+/* Latest sensor values for combined output */
+static uint16_t latest_coil_adc = 0;
+static int32_t latest_accel[3] = {0, 0, 0};
+static int32_t latest_gyro[3] = {0, 0, 0};
+static K_MUTEX_DEFINE(sensor_mutex);
+
 /* DMIC configuration */
 static struct pcm_stream_cfg stream = {
 	.pcm_width = SAMPLE_BIT_WIDTH,
@@ -175,7 +181,7 @@ static void audio_thread(void *arg1, void *arg2, void *arg3)
 
 K_THREAD_DEFINE(audio_tid, 2048, audio_thread, NULL, NULL, NULL, 7, 0, 0);
 
-/* Thread to read ADC and output to serial */
+/* Thread to read ADC and update shared state */
 static void adc_thread(void *arg1, void *arg2, void *arg3)
 {
 	ARG_UNUSED(arg1);
@@ -202,16 +208,18 @@ static void adc_thread(void *arg1, void *arg2, void *arg3)
 			LOG_ERR("ADC read failed: %d", ret);
 		} else {
 			adc_val = (uint16_t)adc_sample_buffer;
-			printk("COIL:%u\n", adc_val);
+			k_mutex_lock(&sensor_mutex, K_FOREVER);
+			latest_coil_adc = adc_val;
+			k_mutex_unlock(&sensor_mutex);
 		}
 
-		k_sleep(K_MSEC(100));
+		k_sleep(K_MSEC(50));  /* Match IMU rate */
 	}
 }
 
 K_THREAD_DEFINE(adc_tid, 1024, adc_thread, NULL, NULL, NULL, 8, 0, 0);
 
-/* Thread to read IMU and output to serial */
+/* Thread to read IMU and output combined data to serial */
 static void imu_thread(void *arg1, void *arg2, void *arg3)
 {
 	ARG_UNUSED(arg1);
@@ -259,8 +267,16 @@ static void imu_thread(void *arg1, void *arg2, void *arg3)
 		int32_t gy = (gyro_y.val1 * 100) + (gyro_y.val2 / 10000);
 		int32_t gz = (gyro_z.val1 * 100) + (gyro_z.val2 / 10000);
 
-		/* Print IMU data as integers (divide by 100 for actual value) */
-		printk("IMU:%d.%02d,%d.%02d,%d.%02d,%d.%02d,%d.%02d,%d.%02d\n",
+		/* Get latest coil ADC value */
+		uint16_t coil_adc;
+		k_mutex_lock(&sensor_mutex, K_FOREVER);
+		coil_adc = latest_coil_adc;
+		k_mutex_unlock(&sensor_mutex);
+
+		/* Print combined data in single line: COIL,IMU_DATA */
+		/* Format: DATA:coil,ax,ay,az,gx,gy,gz */
+		printk("DATA:%u,%d.%02d,%d.%02d,%d.%02d,%d.%02d,%d.%02d,%d.%02d\n",
+			coil_adc,
 			ax/100, abs(ax%100), ay/100, abs(ay%100), az/100, abs(az%100),
 			gx/100, abs(gx%100), gy/100, abs(gy%100), gz/100, abs(gz%100));
 
